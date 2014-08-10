@@ -95,12 +95,13 @@ var SampleApp = function() {
     self.createRoutes = function() {
         self.routes = { };
 
+        self.routes['/partials/:name'] = function(req, res){
+            res.render('partials/' + req.params.name);
+        }
         
-
-        self.routes['/'] = function(req, res) {
-            res.setHeader('Content-Type', 'text/html');
-            res.send(self.cache_get('index.html') );
-        };
+        self.routes['/*'] = function(req, res){
+            res.render('index.html');
+        }
     };
 
 
@@ -112,7 +113,8 @@ var SampleApp = function() {
         self.createRoutes();
         self.app = express.createServer();
         self.app.use(express.static(process.cwd() + '/public/app'));
-
+        self.app.set('view engine', 'jade');
+        self.app.engine('.html', require('ejs').renderFile);
         //  Add handlers for the app (from the routes).
         for (var r in self.routes) {
             self.app.get(r, self.routes[r]);

@@ -2,15 +2,22 @@
 
 
 // Declare app level module which depends on filters, and services
-angular.module('myApp', [
+angular.module('donaldPortfolio', [
   'ngRoute',
-  'myApp.filters',
-  'myApp.services',
-  'myApp.directives',
-  'myApp.controllers'
+  'donaldPortfolio.filters',
+  'donaldPortfolio.services',
+  'donaldPortfolio.directives',
+  'donaldPortfolio.controllers'
 ]).
-config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view1', {templateUrl: 'partials/partial1.html', controller: 'MyCtrl1'});
-  $routeProvider.when('/view2', {templateUrl: 'partials/partial2.html', controller: 'MyCtrl2'});
-  $routeProvider.otherwise({redirectTo: '/view1'});
+config(['$routeProvider','$locationProvider', function($routeProvider, $locationProvider) {
+  	$routeProvider.when('/', {templateUrl: 'partials/landing.html', controller: 'MyCtrl1'});
+  	$routeProvider.when('/d3', {templateUrl: 'partials/d3.html', controller: 'MyCtrl1'});
+  	$routeProvider.when('/snake', {templateUrl: 'partials/snake.html', controller: 'MyCtrl2'});
+  	$routeProvider.when('/404', {templateUrl: 'partials/404.html', controller: 'MyCtrl2'});
+	$routeProvider.otherwise({templateUrl: 'partials/landing.html'});
+  
+  	$locationProvider.html5Mode(true);
+}]);
+angular.module('donaldPortfolio').run(['$route', function($route)  {
+  $route.reload(); //reload location change missed by nested ng-view
 }]);
