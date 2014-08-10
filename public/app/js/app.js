@@ -14,7 +14,7 @@ config(['$routeProvider','$locationProvider', function($routeProvider, $location
   	$routeProvider.when('/d3', {templateUrl: 'partials/d3.html', controller: 'MyCtrl1'});
   	$routeProvider.when('/snake', {templateUrl: 'partials/snake.html', controller: 'MyCtrl2'});
   	$routeProvider.when('/404', {templateUrl: 'partials/404.html', controller: 'MyCtrl2'});
-	$routeProvider.otherwise({templateUrl: 'partials/landing.html'});
+	$routeProvider.otherwise({templateUrl: 'partials/404.html'});
   
   	$locationProvider.html5Mode(true);
 }]);
