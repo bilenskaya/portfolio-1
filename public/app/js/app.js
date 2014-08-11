@@ -7,7 +7,8 @@ angular.module('donaldPortfolio', [
   'donaldPortfolio.filters',
   'donaldPortfolio.services',
   'donaldPortfolio.directives',
-  'donaldPortfolio.controllers'
+  'donaldPortfolio.controllers',
+  'ui.bootstrap'
 ]).
 config(['$routeProvider','$locationProvider', function($routeProvider, $locationProvider) {
   	$routeProvider.when('/', {templateUrl: 'partials/landing.html', controller: 'MyCtrl1'});
