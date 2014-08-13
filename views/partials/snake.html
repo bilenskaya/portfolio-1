@@ -1,1 +1,12 @@
-<div>SNAKE</div>
+<div ng-controller="SnakeController">
+	<div id="GameBoard" keypress>
+		<div class="gameboard-wrapper">
+			<ul class="board-list">		
+				<div class="snake-row" ng-repeat="row in grid track by row.id">						
+					<li ng-repeat="block in row.blocks track by block.id" ng-class="{food:block.type == 'food', snake:block.type =='snake', block:true}"></li>
+				</div>
+			</ul>
+		</div>
+		<button type="button" ng-click="stopGame()">Stop Game</button>
+	</div>
+</div>

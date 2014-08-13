@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-angular.module('donaldPortfolio.controllers', [])
+var controllersModule = angular.module('donaldPortfolio.controllers', [])
   .controller('MyCtrl1', ['$scope', function($scope) {
   	$scope.oneAtATime = true;
 

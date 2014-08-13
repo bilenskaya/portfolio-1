@@ -27,9 +27,41 @@
   top: 0px; 
   width: 220px; 
   height: 100%; 
-  background: #313131;
+  background: #131313;
   border-right: 2px solid #000000;
 }
+  .panel {
+    background: none;
+    border: 0px;
+  }
+  .panel-group {
+    margin-bottom: 1px;
+  }
+  .panel-body {
+    background: #000000;
+    color: white;
+    border-bottom: 1px solid #222222;
+  }
+  .panel-heading {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px; 
+  }
+  .panel-default>.panel-heading {
+    background-color: #222222;
+    color: white;
+    border: 0px;
+  }
+  .panel-default>.panel-heading+.panel-collapse>.panel-body {
+    border-top-color: #111111;
+  }
+  .panel-group .panel+.panel {
+    margin-top: 1px;
+  }
+  .logo-container {
+    width: 100%;
+    height: 150px;
+    /*background: #131313;*/
+  }
 
 /* Main Panel */
 
@@ -40,6 +72,7 @@
   top: 0px; 
   right: 0px; 
   bottom: 0px;
+  background: grey;
 }
   .main-container {
     position: absolute; 
@@ -48,4 +81,41 @@
     top: 0px; 
     bottom: 0px; 
     width: 100%;
+  }
+
+
+
+
+/* SNAKE */
+
+.gameboard-wrapper {
+  /*width:560px; 
+  height:700px; */
+  background:grey;
+}
+.board-list {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  -webkit-padding-start: 0;
+}
+  .board-list .block {
+    height: 20px;
+    width: 20px;
+    background: white;
+    display: block;
+    text-align: center;
+    float: left;
+    margin: 1px;
+  }
+  .food {
+    background: #A5602A !important;
+  }
+  .snake {
+    background: #009206 !important;
+  }
+
+  .snake-row {
+    display: block;
+    float: left;
+    height: 22px;
   }

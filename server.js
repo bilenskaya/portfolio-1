@@ -38,12 +38,6 @@ var SampleApp = function() {
      *  Populate the cache.
      */
     self.populateCache = function() {
-        if (typeof self.zcache === "undefined") {
-            self.zcache = { 'index.html': '' };
-        }
-
-        //  Local cache for static content.
-        self.zcache['index.html'] = fs.readFileSync('./index.html');
     };
 
 
