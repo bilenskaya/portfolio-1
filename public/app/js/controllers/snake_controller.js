@@ -1,11 +1,12 @@
 controllersModule
-	.controller('SnakeController', ['$scope','$rootScope', function($scope,$rootScope) {
+	.controller('SnakeController', ['$scope','$rootScope', '$timeout', function($scope,$rootScope,$timeout) {
 		var snake = [];
 		var food = [];
 		var playing = true;
 		var direction = 'r';
 		snake.push([0,0]); // initial snake
 		var growing = false;
+		var timer;
 
 		$rootScope.$on('keypress', function(obj, key){
 			switch(key.which) {
@@ -94,6 +95,7 @@ controllersModule
 			};
 
 			paint();
+
 		}
 
 		var checkCollisions = function(){
@@ -130,25 +132,27 @@ controllersModule
 			}
 			
 			for(piece in snake){
-				$scope.$apply(function(){
+				// $scope.$apply(function(){
 					$scope.grid[snake[piece][0]].blocks[snake[piece][1]].type = 'snake';					
-				})
+				// })
 			}
 
 			// draw food
-			$scope.$apply(function(){
+			// $scope.$apply(function(){
 				$scope.grid[food[0]].blocks[food[1]].type = 'food';
-			});
+			// });
 
 			// checkCollisions();
+			timer = $timeout(gameLoop, 200);
 		}
 
 		$scope.stopGame = function(reason){
-			clearInterval(ticker);
+			// clearInterval(ticker);
 			// clearGrid();
+			$timeout.cancel(timer);
 		}
 
 		clearGrid();
 		
-		var ticker = setInterval(gameLoop, 200);
+		// timer = $timeout(gameLoop, 200);
   	}]);

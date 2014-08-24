@@ -82,7 +82,9 @@
     bottom: 0px; 
     width: 100%;
   }
-
+#mainpanel .full {
+  height: 100%;
+}
 
 
 
@@ -91,7 +93,9 @@
 .gameboard-wrapper {
   /*width:560px; 
   height:700px; */
-  background:grey;
+  width: 660px;
+  background:#000;
+  display: inline-block;
 }
 .board-list {
   -webkit-margin-before: 0;
