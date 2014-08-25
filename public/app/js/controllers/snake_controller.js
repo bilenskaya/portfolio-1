@@ -130,29 +130,21 @@ controllersModule
 				if($scope.grid[x].blocks[y].type != 'snake')
 					food = [x,y];
 			}
-			
-			for(piece in snake){
-				// $scope.$apply(function(){
-					$scope.grid[snake[piece][0]].blocks[snake[piece][1]].type = 'snake';					
-				// })
-			}
 
-			// draw food
-			// $scope.$apply(function(){
-				$scope.grid[food[0]].blocks[food[1]].type = 'food';
-			// });
+			for(piece in snake){
+				$scope.grid[snake[piece][0]].blocks[snake[piece][1]].type = 'snake';
+			}
+			
+			$scope.grid[food[0]].blocks[food[1]].type = 'food';
 
 			// checkCollisions();
 			timer = $timeout(gameLoop, 200);
 		}
 
 		$scope.stopGame = function(reason){
-			// clearInterval(ticker);
-			// clearGrid();
 			$timeout.cancel(timer);
 		}
 
-		clearGrid();
-		
-		// timer = $timeout(gameLoop, 200);
+		clearGrid();		
+		timer = $timeout(gameLoop, 200);
   	}]);
