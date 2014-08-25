@@ -138,7 +138,7 @@ controllersModule
 			$scope.grid[food[0]].blocks[food[1]].type = 'food';
 
 			// checkCollisions();
-			timer = $timeout(gameLoop, 200);
+			timer = $timeout(gameLoop, 100);
 		}
 
 		$scope.stopGame = function(reason){
@@ -146,5 +146,5 @@ controllersModule
 		}
 
 		clearGrid();		
-		timer = $timeout(gameLoop, 200);
+		timer = $timeout(gameLoop, 100);
   	}]);
