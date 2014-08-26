@@ -2,28 +2,31 @@ controllersModule
 	.controller('SnakeController', ['$scope','$rootScope', '$timeout', function($scope,$rootScope,$timeout) {
 		var snake = [];
 		var food = [];
+		var moves = ['r'];
 		var playing = true;
-		var direction = 'r';
+		var direction;
 		snake.push([0,0]); // initial snake
 		var growing = false;
 		var timer;
+		var state = 'play';
+		$scope.score = 0;
 
 		$rootScope.$on('keypress', function(obj, key){
 			switch(key.which) {
 		        case 37: // left
-		        direction = 'l';
+		        (moves[moves.length - 1] == 'r' || (moves.length == 0 && direction == 'r')) && snake.length > 1 ? moves.push('r') : moves.push('l');
 		        break;
 
 		        case 38: // up
-		        direction = 'u';
+   		        (moves[moves.length - 1] == 'd' || (moves.length == 0 && direction == 'd')) && snake.length > 1 ? moves.push('d') : moves.push('u');
 		        break;
 
 		        case 39: // right
-		        direction = 'r';
+		        (moves[moves.length - 1] == 'l' || (moves.length == 0 && direction == 'l')) && snake.length > 1 ? moves.push('l') : moves.push('r');
 		        break;
 
 		        case 40: // down
-		        direction = 'd';
+		        (moves[moves.length - 1] == 'u' || (moves.length == 0 && direction == 'u')) && snake.length > 1 ? moves.push('u') : moves.push('d');
 		        break;
 
 		        case 32: // spacebar
@@ -60,6 +63,10 @@ controllersModule
 		var gameLoop = function(){
 			var prev;
 			var temp;
+			var dir = moves.shift();
+			if(dir != undefined)
+				direction = dir;
+
 			for (var i = 0; i < snake.length; i++) {
 				if(i == 0){
 					prev = [snake[i][0],snake[i][1]];
@@ -107,44 +114,37 @@ controllersModule
 						break top; // we know they didnt win yet
 				};
 			};
-
-			// did they lose?
-			var o = 0;
-			for(block in snake){
-				for (var i = 0; i < snake.length; i++) {
-					if(snake[block][0] == snake[i][0] && snake[block][1] == snake[i][1])
-						o++;
-				};
-			}
-			if(o > 1)
-				$scope.stopGame('lose'); //snake/snake intersection
-
-			o = 0;
 		}
 
 		var paint = function(){
-			clearGrid();
-			if(food.length == 0){
-				var x = Math.floor(Math.random()*28) + 1;
-				var y = Math.floor(Math.random()*23) + 1;
-				if($scope.grid[x].blocks[y].type != 'snake')
-					food = [x,y];
-			}
+			if($scope.grid[snake[0][0]] == undefined || $scope.grid[snake[0][0]].blocks[snake[0][1]] == undefined || snake.length > 2 && $scope.grid[snake[0][0]].blocks[snake[0][1]].type == 'snake'){
+				// out-of-bounds / intersection
+				$scope.stopGame('lost');
+			}else{
+				clearGrid();
+				if(food.length == 0){
+					var x = Math.floor(Math.random()*28) + 1;
+					var y = Math.floor(Math.random()*23) + 1;
+					if($scope.grid[x].blocks[y].type != 'snake')
+						food = [x,y];
+				}
 
-			for(piece in snake){
-				$scope.grid[snake[piece][0]].blocks[snake[piece][1]].type = 'snake';
+				for(piece in snake){				
+					$scope.grid[snake[piece][0]].blocks[snake[piece][1]].type = 'snake';
+				}
+				
+				$scope.grid[food[0]].blocks[food[1]].type = 'food';
+				// checkCollisions();
+				timer = $timeout(gameLoop, 155);
 			}
 			
-			$scope.grid[food[0]].blocks[food[1]].type = 'food';
-
-			// checkCollisions();
-			timer = $timeout(gameLoop, 100);
 		}
 
 		$scope.stopGame = function(reason){
 			$timeout.cancel(timer);
+			state = 'stop';
 		}
 
 		clearGrid();		
-		timer = $timeout(gameLoop, 100);
+		timer = $timeout(gameLoop, 155);
   	}]);
