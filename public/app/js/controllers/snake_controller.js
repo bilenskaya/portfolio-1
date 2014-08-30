@@ -12,22 +12,25 @@ controllersModule
 		$scope.score = 0;
 
 		$rootScope.$on('keypress', function(obj, key){
-			//  Todo: don't overload direction array with repeated directions
 			switch(key.which) {
 		        case 37: // left
-		        (moves[moves.length - 1] == 'r' || (moves.length == 0 && direction == 'r')) && snake.length > 1 ? moves.push('r') : moves.push('l');
+		        if(moves[moves.length - 1] != 'l')
+				    (moves[moves.length - 1] == 'r' || (moves.length == 0 && direction == 'r')) && snake.length > 1 ? moves.push('r') : moves.push('l');		        
 		        break;
 
 		        case 38: // up
-   		        (moves[moves.length - 1] == 'd' || (moves.length == 0 && direction == 'd')) && snake.length > 1 ? moves.push('d') : moves.push('u');
+		        if(moves[moves.length - 1] != 'u')
+   		        	(moves[moves.length - 1] == 'd' || (moves.length == 0 && direction == 'd')) && snake.length > 1 ? moves.push('d') : moves.push('u');
 		        break;
 
 		        case 39: // right
-		        (moves[moves.length - 1] == 'l' || (moves.length == 0 && direction == 'l')) && snake.length > 1 ? moves.push('l') : moves.push('r');
+		        if(moves[moves.length - 1] != 'r')
+		        	(moves[moves.length - 1] == 'l' || (moves.length == 0 && direction == 'l')) && snake.length > 1 ? moves.push('l') : moves.push('r');
 		        break;
 
 		        case 40: // down
-		        (moves[moves.length - 1] == 'u' || (moves.length == 0 && direction == 'u')) && snake.length > 1 ? moves.push('u') : moves.push('d');
+		        if(moves[moves.length - 1] != 'd')
+		        	(moves[moves.length - 1] == 'u' || (moves.length == 0 && direction == 'u')) && snake.length > 1 ? moves.push('u') : moves.push('d');
 		        break;
 
 		        case 32: // spacebar
