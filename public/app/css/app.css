@@ -123,3 +123,14 @@
     float: left;
     height: 22px;
   }
+
+.scorecard {
+  background: rgba(114, 114, 114, 0.48);
+  width: 100px;
+  height: 50px;
+  position: fixed;
+  top: 0px;
+  color: rgb(246, 248, 246);
+  font-size: 36px;
+  text-align: center;
+}

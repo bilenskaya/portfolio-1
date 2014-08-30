@@ -5,13 +5,14 @@ controllersModule
 		var moves = ['r'];
 		var playing = true;
 		var direction;
-		snake.push([0,0]); // initial snake
+		snake.push([0,0]); // snake starts at 0,0 now, might want to randomize
 		var growing = false;
 		var timer;
 		var state = 'play';
 		$scope.score = 0;
 
 		$rootScope.$on('keypress', function(obj, key){
+			//  Todo: don't overload direction array with repeated directions
 			switch(key.which) {
 		        case 37: // left
 		        (moves[moves.length - 1] == 'r' || (moves.length == 0 && direction == 'r')) && snake.length > 1 ? moves.push('r') : moves.push('l');
@@ -70,8 +71,10 @@ controllersModule
 			for (var i = 0; i < snake.length; i++) {
 				if(i == 0){
 					prev = [snake[i][0],snake[i][1]];
-					if(prev[0] == food[0] && prev[1] == food[1]) //check for an eat
+					if(prev[0] == food[0] && prev[1] == food[1]){ //check for an eat
 						growing = true;
+						$scope.score ++;
+					}
 
 					switch(direction){
 						case "r":
