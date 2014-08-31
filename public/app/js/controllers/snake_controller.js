@@ -1,5 +1,5 @@
 controllersModule
-	.controller('SnakeController', ['$scope','$rootScope', '$timeout', function($scope,$rootScope,$timeout) {
+	.controller('SnakeController', ['$scope','$rootScope', '$timeout', '$modal', function($scope,$rootScope,$timeout,$modal) {
 		var snake = [];
 		var food = [];
 		var moves = ['r'];
@@ -34,12 +34,26 @@ controllersModule
 		        break;
 
 		        case 32: // spacebar
-		        growing = true;
+		        // growing = true;
+		        pause();
 		        break;
 
 		        default: return;
 		    }
 		});
+
+		var pause = function(){
+			var pauseModal = $modal.open({
+				templateUrl: 'pause.html',
+				size: 'sm'
+			});
+			$timeout.cancel(timer);
+			pauseModal.result.then(function(){}, 
+				function(){
+					// Resume game 
+					timer = $timeout(gameLoop, 155);
+				});
+		}
 
 		var clearGrid = function(){
 			// Build the gameboard
@@ -154,3 +168,8 @@ controllersModule
 		clearGrid();		
 		timer = $timeout(gameLoop, 155);
   	}]);
+
+// modal controller
+var pauseController = function($scope, $modalInstance){
+
+}
