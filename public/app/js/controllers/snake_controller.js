@@ -9,6 +9,7 @@ controllersModule
 		var growing = false;
 		var timer;
 		var state = 'play';
+		var GRIDSIZE = 30;	// eventually give user choices.
 		$scope.score = 0;
 		var pauseModal;
 
@@ -72,8 +73,8 @@ controllersModule
 			var temp = [];
 			var count = 0;
 
-			for (var i = 0; i < 30; i++) {
-				for (var j = 0; j < 30; j++) {
+			for (var i = 0; i < GRIDSIZE; i++) {
+				for (var j = 0; j < GRIDSIZE; j++) {
 					temp.push({
 						id: count,
 						type: 'empty'
@@ -139,8 +140,8 @@ controllersModule
 		var checkCollisions = function(){
 			// did they win?
 			top:
-			for (var i = 0; i < 30; i++) {
-				for (var j = 0; j < 30; j++) {
+			for (var i = 0; i < GRIDSIZE; i++) {
+				for (var j = 0; j < GRIDSIZE; j++) {
 					if($scope.grid[i].blocks[j].type == 'empty')
 						break top; // we know they didnt win yet
 				};
