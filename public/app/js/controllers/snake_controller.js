@@ -10,49 +10,60 @@ controllersModule
 		var timer;
 		var state = 'play';
 		$scope.score = 0;
+		var pauseModal;
 
 		$rootScope.$on('keypress', function(obj, key){
-			switch(key.which) {
-		        case 37: // left
-		        if(moves[moves.length - 1] != 'l')
-				    (moves[moves.length - 1] == 'r' || (moves.length == 0 && direction == 'r')) && snake.length > 1 ? moves.push('r') : moves.push('l');		        
-		        break;
+			if(state == 'play' || key.which == 32){
+				switch(key.which) {
+			        case 37: // left
+			        if(moves[moves.length - 1] != 'l')
+					    (moves[moves.length - 1] == 'r' || (moves.length == 0 && direction == 'r')) && snake.length > 1 ? moves.push('r') : moves.push('l');		        
+			        break;
 
-		        case 38: // up
-		        if(moves[moves.length - 1] != 'u')
-   		        	(moves[moves.length - 1] == 'd' || (moves.length == 0 && direction == 'd')) && snake.length > 1 ? moves.push('d') : moves.push('u');
-		        break;
+			        case 38: // up
+			        if(moves[moves.length - 1] != 'u')
+	   		        	(moves[moves.length - 1] == 'd' || (moves.length == 0 && direction == 'd')) && snake.length > 1 ? moves.push('d') : moves.push('u');
+			        break;
 
-		        case 39: // right
-		        if(moves[moves.length - 1] != 'r')
-		        	(moves[moves.length - 1] == 'l' || (moves.length == 0 && direction == 'l')) && snake.length > 1 ? moves.push('l') : moves.push('r');
-		        break;
+			        case 39: // right
+			        if(moves[moves.length - 1] != 'r')
+			        	(moves[moves.length - 1] == 'l' || (moves.length == 0 && direction == 'l')) && snake.length > 1 ? moves.push('l') : moves.push('r');
+			        break;
 
-		        case 40: // down
-		        if(moves[moves.length - 1] != 'd')
-		        	(moves[moves.length - 1] == 'u' || (moves.length == 0 && direction == 'u')) && snake.length > 1 ? moves.push('u') : moves.push('d');
-		        break;
+			        case 40: // down
+			        if(moves[moves.length - 1] != 'd')
+			        	(moves[moves.length - 1] == 'u' || (moves.length == 0 && direction == 'u')) && snake.length > 1 ? moves.push('u') : moves.push('d');
+			        break;
 
-		        case 32: // spacebar
-		        // growing = true;
-		        pause();
-		        break;
+			        case 32: // spacebar
+			        // growing = true;
+			        pause();
+			        break;
 
-		        default: return;
-		    }
+			        default: return;
+			    }
+			}
 		});
 
 		var pause = function(){
-			var pauseModal = $modal.open({
-				templateUrl: 'pause.html',
-				size: 'sm'
-			});
-			$timeout.cancel(timer);
-			pauseModal.result.then(function(){}, 
-				function(){
-					// Resume game 
-					timer = $timeout(gameLoop, 155);
+			if(state == 'paused'){
+				pauseModal.dismiss();
+			}else{
+				pauseModal = $modal.open({
+					templateUrl: 'pause.html',
+					size: 'sm'
+				}, function(){
+					console.log('open')
 				});
+				$timeout.cancel(timer);
+				state = 'paused';
+				pauseModal.result.then(function(){}, 
+					function(){
+						// Resume game 
+						timer = $timeout(gameLoop, 155);
+						state = 'play';
+					});	
+			}			
 		}
 
 		var clearGrid = function(){
