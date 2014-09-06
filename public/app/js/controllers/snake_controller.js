@@ -1,17 +1,32 @@
 controllersModule
 	.controller('SnakeController', ['$scope','$rootScope', '$timeout', '$modal', function($scope,$rootScope,$timeout,$modal) {
-		var snake = [];
-		var food = [];
-		var moves = ['r'];
-		var playing = true;
-		var direction;
-		snake.push([0,0]); // snake starts at 0,0 now, might want to randomize
-		var growing = false;
-		var timer;
-		var state = 'play';
-		var GRIDSIZE = 30;	// eventually give user choices.
-		$scope.score = 0;
-		var pauseModal;
+
+		$rootScope.$on("$routeChangeStart", function(args, to, from){
+			if(from.$$route.originalPath == '/snake')
+					pause();
+		});
+
+		var snake,food,moves,playing,direction,growing,timer,state,GRIDSIZE,pauseModal;
+		$scope.init = function(){
+			var parent = $scope.$parent.game;
+			snake = parent.snake || [[0,0]];
+			food = parent.food || [];
+			moves = parent.moves || ['r'];
+			playing = parent.playing || true;
+			direction = parent.direction || '';
+			growing = parent.growing || false;
+			timer = parent.timer || null;
+			state = parent.state || 'play';
+			GRIDSIZE = parent.GRIDSIZE || 30;	// eventually give user choices.
+			$scope.score = parent.score || 0;
+			
+			pauseModal;
+
+			clearGrid();		
+			timer = $timeout(gameLoop, 155);
+			if(state == 'paused')
+				pause();
+		}
 
 		$rootScope.$on('keypress', function(obj, key){
 			if(state == 'play' || key.which == 32){
@@ -63,7 +78,33 @@ controllersModule
 						// Resume game 
 						timer = $timeout(gameLoop, 155);
 						state = 'play';
-					});	
+					});
+
+				$rootScope.$broadcast('save-game', {
+					snake: snake,
+					food: food,
+					moves: moves,
+					playing: playing,
+					direction: direction,
+					growing: growing,
+					timer: timer,
+					state: state,
+					GRIDSIZE: GRIDSIZE,
+					score: $scope.score
+				});
+				// Save game state
+				// $scope.$parent.game = {
+				// 	snake: snake,
+				// 	food: food,
+				// 	moves: moves,
+				// 	playing: playing,
+				// 	direction: direction,
+				// 	growing: growing,
+				// 	timer: timer,
+				// 	state: state,
+				// 	GRIDSIZE: GRIDSIZE,
+				// 	score: $scope.score
+				// }
 			}			
 		}
 
@@ -177,8 +218,7 @@ controllersModule
 			state = 'stop';
 		}
 
-		clearGrid();		
-		timer = $timeout(gameLoop, 155);
+		
   	}]);
 
 // modal controller
